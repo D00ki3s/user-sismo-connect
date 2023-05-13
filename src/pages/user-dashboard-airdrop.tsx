@@ -18,7 +18,13 @@ import {
   SismoConnectClientConfig,
   AuthType,
 } from "@sismo-core/sismo-connect-react";
-import { devGroups } from "../../config";
+/*Import sismo-connect-server to check proofs*/
+import { 
+  SismoConnect, 
+  SismoConnectServerConfig,
+} from "@sismo-core/sismo-connect-server";
+import { devGroups } from "../../config"; // The DevGroups are in developing mode, and it overrides a group information
+                                          // Needs to be changed to conect in reality with the real groups. 
 
 export enum APP_STATES {
   init,
@@ -38,7 +44,7 @@ const contractAddress = transactions[0].contractAddress;
 export const sismoConnectConfig: SismoConnectClientConfig = {
   appId: "0x9820513d88bf47db265d70a430173414",
   devMode: {
-    enabled: true,
+    enabled: true, ///////////////////////////// DEV MODE ON!!!!!!!! //////////////////////////
     devGroups,
   },
 };
@@ -101,7 +107,7 @@ export default function ClaimAirdrop() {
     // switch the network
     await switchNetwork(userChain);
     try {
-     /*const tokenId = await callContract({
+     const tokenId = await callContract({
         contractAddress,
         responseBytes,
         abi,
@@ -109,8 +115,8 @@ export default function ClaimAirdrop() {
         account,
         publicClient,
         walletClient,
-      });*/
-      const tokenId = "Proof generated";
+      });
+      //const tokenId = "Proof generated";
       // If the proof is valid, we update the user react state to show the tokenId
       setTokenId({ id: tokenId });
     } catch (e) {
@@ -166,6 +172,14 @@ export default function ClaimAirdrop() {
                   // the auth request we want to make
                   // here we want the proof of a Sismo Vault ownership from our users
                   auth={{ authType: AuthType.VAULT }}
+
+                /*
+                ////////////
+                Claims has to be an array selected by the user and not a fixed one
+                ////////////
+
+                */
+
                   claims={[{ groupId: devGroups[0].groupId }, { groupId: devGroups[1].groupId }, {groupId: devGroups[2].groupId }, { groupId: devGroups[3].groupId}]}
                   // we use the AbiCoder to encode the data we want to sign
                   // by encoding it we will be able to decode it on chain
@@ -205,7 +219,7 @@ export default function ClaimAirdrop() {
             </p>
             <div className="profile-container">
               <div>
-                <h2>Proof status</h2>
+                <h2>Proof status:</h2>
                 <b>tokenId: {tokenId?.id}</b>
                 <p>Address used: {account}</p>
               </div>

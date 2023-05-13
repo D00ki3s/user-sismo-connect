@@ -13,11 +13,11 @@
     "deploy-local": "yarn deploy-airdrop-0-contract && yarn deploy-airdrop-1-contract && yarn deploy-airdrop-2-contract && yarn generate-abi",
     "generate-abi": "script/bash/generate-abi.sh",
     "deploy-dookies-user-contract": "forge script DeployDookieUser --rpc-url http://localhost:8545 -vv --mnemonics 'test test test test test test test test test test test junk' --sender '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266' --broadcast"
-
   },
   "dependencies": {
     "@sismo-core/hydra-s2": "^1.0.0",
     "@sismo-core/sismo-connect-react": "^0.0.13",
+    "@sismo-core/sismo-connect-server": "^0.0.11",
     "@types/node": "18.15.11",
     "@types/react": "18.0.34",
     "@types/react-dom": "18.0.11",
