@@ -10,7 +10,7 @@ import {ERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
  * @author Sismo
  * @notice ZkDropERC721 is a contract that allows users to privately claim and transfer ERC721 tokens using SismoConnect.
  */
-contract AirdropLevel2 is
+contract DookieUser is
     ERC721,
     SismoConnect // the contract inherits from SismoConnect
 {
@@ -18,6 +18,9 @@ contract AirdropLevel2 is
     // specify the groupIds from which users should be members of to claim the token
     bytes16 public immutable GROUP_ID;
     bytes16 public immutable GROUP_ID_2;
+    bytes16 public immutable GROUP_ID_VOTE_ENS;
+    //bytes16 public immutable GROUP_ID_LENS;
+    bytes16 public immutable GROUP_ID_ETHTRANSACTIONS;
 
     error RegularERC721TransferFromAreNotAllowed();
     error RegularERC721SafeTransferFromAreNotAllowed();
@@ -27,10 +30,18 @@ contract AirdropLevel2 is
         string memory symbol,
         bytes16 appId, // the appId of your sismoConnect app (you need to register your sismoConnect app on https://factory.sismo.io)
         bytes16 groupId, // the groupId from which users should be members of to claim the token
-        bytes16 groupId2 // the groupId from which users should optionally be members of to claim the token
+
+        bytes16 groupId2, // the groupId from which users should optionally be members of to claim the token
+        bytes16 groupId_ens, // the groupId from which users should optionally be members of to claim the token
+       // bytes16 groupId_lens, // the groupId from which users should optionally be members of to claim the token
+        bytes16 groupId_ethtransactions // the groupId from which users should optionally be members of to claim the token
+
     ) ERC721(name, symbol) SismoConnect(appId) {
         GROUP_ID = groupId;
         GROUP_ID_2 = groupId2;
+        GROUP_ID_VOTE_ENS = groupId_ens;
+        //GROUP_ID_LENS = groupId_lens;
+        GROUP_ID_ETHTRANSACTIONS = groupId_ethtransactions;
     }
 
     /**
@@ -39,9 +50,12 @@ contract AirdropLevel2 is
      * @param response the sismoConnect response from the Data Vault app in bytes
      */
     function claimWithSismo(bytes memory response) public returns (uint256) {
-        ClaimRequest[] memory claims = new ClaimRequest[](2);
+        ClaimRequest[] memory claims = new ClaimRequest[](4);
         claims[0] = buildClaim({groupId: GROUP_ID});
         claims[1] = buildClaim({groupId: GROUP_ID_2});
+        claims[2] = buildClaim({groupId: GROUP_ID_VOTE_ENS});
+        //claims[3] = buildClaim({groupId: GROUP_ID_LENS});
+        claims[3] = buildClaim({groupId: GROUP_ID_ETHTRANSACTIONS});
 
         AuthRequest[] memory auths = new AuthRequest[](1);
         auths[0] = buildAuth({authType: AuthType.VAULT});

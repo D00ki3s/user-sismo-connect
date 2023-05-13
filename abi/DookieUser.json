@@ -21,6 +21,21 @@
         "internalType": "bytes16",
         "name": "groupId",
         "type": "bytes16"
+      },
+      {
+        "internalType": "bytes16",
+        "name": "groupId2",
+        "type": "bytes16"
+      },
+      {
+        "internalType": "bytes16",
+        "name": "groupId_ens",
+        "type": "bytes16"
+      },
+      {
+        "internalType": "bytes16",
+        "name": "groupId_ethtransactions",
+        "type": "bytes16"
       }
     ],
     "stateMutability": "nonpayable",
@@ -138,6 +153,45 @@
   {
     "inputs": [],
     "name": "GROUP_ID",
+    "outputs": [
+      {
+        "internalType": "bytes16",
+        "name": "",
+        "type": "bytes16"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "GROUP_ID_2",
+    "outputs": [
+      {
+        "internalType": "bytes16",
+        "name": "",
+        "type": "bytes16"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "GROUP_ID_ETHTRANSACTIONS",
+    "outputs": [
+      {
+        "internalType": "bytes16",
+        "name": "",
+        "type": "bytes16"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "GROUP_ID_VOTE_ENS",
     "outputs": [
       {
         "internalType": "bytes16",

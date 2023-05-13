@@ -9,8 +9,8 @@ import {
   callContract,
   signMessage,
 } from "@/utils";
-import { transactions } from "../../broadcast/AirdropLevel2.s.sol/5151110/run-latest.json";
-import { abi } from "../../abi/AirdropLevel2.json";
+import { transactions } from "../../broadcast/DookieUser.s.sol/5151110/run-latest.json";
+import { abi } from "../../abi/DookieUser.json";
 import { createWalletClient, http, custom, WalletClient, PublicClient } from "viem";
 import BackButton from "../components/BackButton";
 import {
@@ -36,7 +36,7 @@ const contractAddress = transactions[0].contractAddress;
 // You can find more information about the configuration here: https://docs.sismo.io/build-with-sismo-connect/technical-documentation/react
 
 export const sismoConnectConfig: SismoConnectClientConfig = {
-  appId: "0xf4977993e52606cfd67b7a1cde717069",
+  appId: "0x9820513d88bf47db265d70a430173414",
   devMode: {
     enabled: true,
     devGroups,
@@ -49,7 +49,7 @@ export default function ClaimAirdrop() {
   const [error, setError] = useState<string>("");
   const [tokenId, setTokenId] = useState<{ id: string }>();
   const [account, setAccount] = useState<`0x${string}`>(
-    "0x70997970C51812dc3A010C7d01b50e0d17dc79C8"
+    "0x072d7e87c13bCe2751B5766A0E2280BAD235974f"
   );
   const [isAirdropAddressKnown, setIsAirdropAddressKnown] = useState<boolean>(false);
   const [walletClient, setWalletClient] = useState<WalletClient>(
@@ -78,7 +78,7 @@ export default function ClaimAirdrop() {
   }, [isAirdropAddressKnown]);
 
   async function connectWallet() {
-    router.push("/level-2-claim-airdrop");
+    router.push("/user-dashboard-airdrop");
     const address = await requestAccounts();
     localStorage.setItem("airdropAddress", address);
     setAccount(address);
@@ -127,11 +127,11 @@ export default function ClaimAirdrop() {
         {!tokenId && (
           <>
             <h1 style={{ marginBottom: 10 }}>
-              Claim a gated airdrop to Nouns DAO NFT and Gitcoin Passport holders
+              Share your interest and get rewarded transactions joining Dookies
             </h1>
             {!isAirdropAddressKnown && (
               <p style={{ marginBottom: 40 }}>
-                Select on which address you want to receive the airdrop and sign it with Sismo
+                Select on which address you want to receive your interest proof airdrop and sign it with Sismo
                 Connect
               </p>
             )}
@@ -165,7 +165,7 @@ export default function ClaimAirdrop() {
                   // the auth request we want to make
                   // here we want the proof of a Sismo Vault ownership from our users
                   auth={{ authType: AuthType.VAULT }}
-                  claims={[{ groupId: devGroups[0].groupId }, { groupId: devGroups[1].groupId }]}
+                  claims={[{ groupId: devGroups[0].groupId }, { groupId: devGroups[1].groupId }, {groupId: devGroups[2].groupId }, { groupId: devGroups[3].groupId}]}
                   // we use the AbiCoder to encode the data we want to sign
                   // by encoding it we will be able to decode it on chain
                   signature={{ message: signMessage(account) }}
