@@ -3,6 +3,7 @@ pragma solidity ^0.8.17;
 
 // import SismoConnect Solidity library
 import "sismo-connect-solidity/SismoLib.sol";
+import "sismo-connect-solidity/lib/sismo-connect-onchain-verifier/src/libs/utils/Structs.sol"
 import {ERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
 /**
@@ -13,7 +14,7 @@ import {ERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 contract DookieUser is
     ERC721,
     SismoConnect // the contract inherits from SismoConnect
-{
+    {
     using SismoConnectHelper for SismoConnectVerifiedResult;
     // specify the groupIds from which users should be members of to claim the token
     bytes16 public immutable GROUP_ID;
@@ -51,11 +52,11 @@ contract DookieUser is
      */
     function claimWithSismo(bytes memory response) public returns (uint256) {
         ClaimRequest[] memory claims = new ClaimRequest[](4);
-        claims[0] = buildClaim({groupId: GROUP_ID});
-        claims[1] = buildClaim({groupId: GROUP_ID_2});
-        claims[2] = buildClaim({groupId: GROUP_ID_VOTE_ENS});
+        claims[0] = buildClaim({groupId: GROUP_ID , isOptional: true});
+        claims[1] = buildClaim({groupId: GROUP_ID_2, isOptional: true});
+        claims[2] = buildClaim({groupId: GROUP_ID_VOTE_ENS, isOptional: true});
         //claims[3] = buildClaim({groupId: GROUP_ID_LENS});
-        claims[3] = buildClaim({groupId: GROUP_ID_ETHTRANSACTIONS});
+        claims[3] = buildClaim({groupId: GROUP_ID_ETHTRANSACTIONS, isOptional: true});
 
         AuthRequest[] memory auths = new AuthRequest[](1);
         auths[0] = buildAuth({authType: AuthType.VAULT});

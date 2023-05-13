@@ -1,5 +1,6 @@
 "use client"
 import router from "next/router";
+//import 'react-select/dist/react-select.css';
 import { useEffect, useState } from "react";
 import {
   switchNetwork,
@@ -30,6 +31,17 @@ import {
 import { devGroups } from "../../config"; // The DevGroups are in developing mode, and it overrides a group information
 // Needs to be changed to conect in reality with the real groups. 
 
+import Select from 'react-select';
+
+const options = [
+  { value: '0x311ece950f9ec55757eb95f3182ae5e2', label: 'Nouns DAO NFT Holder' },
+  { value: '0x1cde61966decb8600dfd0749bd371f12', label: 'Gitcoin Passport Holder' },
+  { value: '0x7fa46f9ad7e19af6e039aa72077064a1', label: 'ENS DAO Voter' },
+  { value: '0x94bf7aea2a6a362e07e787a663271348', label: 'ETH Whale' },
+];
+
+
+
 export enum APP_STATES {
   init,
   receivedProof,
@@ -47,6 +59,7 @@ const contractAddress = transactions[0].contractAddress;
 
 export const sismoConnectConfig: SismoConnectClientConfig = {
   appId: "0x9820513d88bf47db265d70a430173414",
+  //isOptional: true,
   devMode: {
     enabled: true, ///////////////////////////// DEV MODE ON!!!!!!!! //////////////////////////
     devGroups,
@@ -61,6 +74,9 @@ export default function ClaimAirdrop() {
   const [account, setAccount] = useState<`0x${string}`>(
     "0x072d7e87c13bCe2751B5766A0E2280BAD235974f"
   );
+
+  const [selectedOption, setSelectedOption] = useState([]);
+
   const [isAirdropAddressKnown, setIsAirdropAddressKnown] = useState<boolean>(false);
   const [walletClient, setWalletClient] = useState<WalletClient>(
     createWalletClient({
@@ -78,7 +94,7 @@ export default function ClaimAirdrop() {
         try {
           const verifyRes = await fetch('http://localhost:4500', {
             method: 'POST',
-            body: JSON.stringify({ response, account, groups: [{ groupId: devGroups[0].groupId }, { groupId: devGroups[1].groupId }, { groupId: devGroups[2].groupId }, { groupId: devGroups[3].groupId }], signature: "dookie" }), // That should be the proof
+            body: JSON.stringify({ response, account, groups: selectedOption?.map((opt: any) => ({groupId:opt.value})), signature: "dookie" }), // That should be the proof
             headers: { 'Content-Type': 'application/json' },
             credentials: 'include',
           });
@@ -154,6 +170,11 @@ export default function ClaimAirdrop() {
       localStorage.removeItem("airdropAddress");
     }
   }
+  const onChange = (option: any) => {
+    console.log(option)
+    setSelectedOption(option);
+  }
+ 
 
   return (
     <>
@@ -169,7 +190,14 @@ export default function ClaimAirdrop() {
                 Select on which address you want to receive your interest proof airdrop and sign it with Sismo
                 Connect
               </p>
-            )}
+            )} 
+            
+            <Select
+              value={selectedOption}
+              isMulti
+              onChange={onChange}
+              options={options}
+            />
 
             {isAirdropAddressKnown ? (
               <p style={{ marginBottom: 40 }}>You will receive the airdrop on {account}</p>
@@ -201,14 +229,7 @@ export default function ClaimAirdrop() {
                   // here we want the proof of a Sismo Vault ownership from our users
                   auth={{ authType: AuthType.VAULT }}
 
-
-                  ////////////
-                  //Claims has to be an array selected by the user and not a fixed one
-                  ////////////
-
-
-
-                  claims={[{ groupId: devGroups[0].groupId }, { groupId: devGroups[1].groupId }, { groupId: devGroups[2].groupId }, { groupId: devGroups[3].groupId }]}
+                  claims={selectedOption?.map(( opt : any) => ({groupId:opt.value}))}
                   // we use the AbiCoder to encode the data we want to sign
                   // by encoding it we will be able to decode it on chain
                   //signature={{ message: signMessage(account) }}

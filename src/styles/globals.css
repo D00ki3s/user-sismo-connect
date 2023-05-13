@@ -232,6 +232,11 @@ input:focus {
   cursor: pointer;
 }
 
+.css-b62m3t-container {
+  color: #000;
+
+}
+
 @font-face {
   font-family: "Roboto-Light";
   src: local("Roboto"), url(../../public/fonts/Roboto-Light.ttf) format("truetype");

@@ -20,7 +20,9 @@ export const devGroups = [
       "0x938f169352008d35e065F153be53b3D3C07Bcd90",
       "0x072d7e87c13bCe2751B5766A0E2280BAD235974f",
       "0x1aff17694e8437ddfab8f4a56d3b45476a76cc60",
+      
     ],
+    isObtional: true,
   },
   {
     // Gitcoin Passport group : https://factory.sismo.io/groups-explorer?search=0x1cde61966decb8600dfd0749bd371f12
@@ -33,7 +35,9 @@ export const devGroups = [
       "0x938f169352008d35e065F153be53b3D3C07Bcd90",
       //"0x072d7e87c13bCe2751B5766A0E2280BAD235974f",
       //"0x1aff17694e8437ddfab8f4a56d3b45476a76cc60",
+      "0xF20F79Fe2231a9571dcaCfeD8198E5100d7fa52A",
     ],
+    isObtional: true,
   },
   {
     // ENS Passport group : https://factory.sismo.io/groups-explorer?search=0x1cde61966decb8600dfd0749bd371f12
@@ -46,6 +50,7 @@ export const devGroups = [
       //"0x938f169352008d35e065F153be53b3D3C07Bcd90",
       //"0x072d7e87c13bCe2751B5766A0E2280BAD235974f",
       //"0x1aff17694e8437ddfab8f4a56d3b45476a76cc60",
+      "0xF20F79Fe2231a9571dcaCfeD8198E5100d7fa52A",
     ],
   },{
     // Ethereum transactions Passport group : https://factory.sismo.io/groups-explorer?search=0x1cde61966decb8600dfd0749bd371f12
@@ -58,6 +63,7 @@ export const devGroups = [
       "0x938f169352008d35e065F153be53b3D3C07Bcd90",
       "0x072d7e87c13bCe2751B5766A0E2280BAD235974f",
       "0x1aff17694e8437ddfab8f4a56d3b45476a76cc60",
+      "0xF20F79Fe2231a9571dcaCfeD8198E5100d7fa52A",
     ],
   },
 ];
