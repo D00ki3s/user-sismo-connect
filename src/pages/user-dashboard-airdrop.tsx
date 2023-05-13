@@ -15,20 +15,20 @@ import { transactions } from "../../broadcast/DookieUser.s.sol/5151110/run-lates
 import { abi } from "../../abi/DookieUser.json";
 import { createWalletClient, http, custom, WalletClient, PublicClient } from "viem";
 import BackButton from "../components/BackButton";
-import { 
-  SismoConnectButton, 
-  AuthType, 
+import {
+  SismoConnectButton,
+  AuthType,
   SismoConnectClientConfig,
   SismoConnectResponse,
- } from "@sismo-core/sismo-connect-react";
+} from "@sismo-core/sismo-connect-react";
 
 /*Import sismo-connect-server to check proofs*/
-import { 
-  SismoConnect, 
+import {
+  SismoConnect,
   SismoConnectServerConfig,
 } from "@sismo-core/sismo-connect-server";
 import { devGroups } from "../../config"; // The DevGroups are in developing mode, and it overrides a group information
-                                          // Needs to be changed to conect in reality with the real groups. 
+// Needs to be changed to conect in reality with the real groups. 
 
 export enum APP_STATES {
   init,
@@ -71,27 +71,28 @@ export default function ClaimAirdrop() {
   const publicClient: PublicClient = getPublicClient(userChain);
 
   useEffect(() => {
-    async function getCookie(){
-      if(appState === APP_STATES.receivedProof && response && account){
+    async function getCookie() {
+      if (appState === APP_STATES.receivedProof && response && account) {
         console.log("GETTING COOKIE")
-        const requestBody = { response: response}; //  Problem sending the body data!!!!!
-                            try {
-                              const verifyRes = await fetch('http://localhost:4500', {
-                                method: 'POST',
-                                body: JSON.stringify({response, account, groups: [{ groupId: devGroups[0].groupId }, { groupId: devGroups[1].groupId }, {groupId: devGroups[2].groupId }, { groupId: devGroups[3].groupId}], signature: "dookie"}), // That should be the proof
-                                headers: { 'Content-Type': 'application/json' },
-                              });
-                              const verified = await verifyRes.json()
-                              console.log(verified)
-                            
-                  
-                            } catch (error) {
-                              console.error('Error:', error);
-                            }
-            }
+        const requestBody = { response: response }; //  Problem sending the body data!!!!!
+        try {
+          const verifyRes = await fetch('http://localhost:4500', {
+            method: 'POST',
+            body: JSON.stringify({ response, account, groups: [{ groupId: devGroups[0].groupId }, { groupId: devGroups[1].groupId }, { groupId: devGroups[2].groupId }, { groupId: devGroups[3].groupId }], signature: "dookie" }), // That should be the proof
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+          });
+          const verified = await verifyRes.json()
+          console.log(verified)
+
+
+        } catch (error) {
+          console.error('Error:', error);
+        }
+      }
     }
     getCookie()
-  
+
   }, [response, account])
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -134,7 +135,7 @@ export default function ClaimAirdrop() {
     // switch the network
     await switchNetwork(userChain);
     try {
-     const tokenId = await callContract({
+      const tokenId = await callContract({
         contractAddress,
         responseBytes,
         abi,
@@ -191,7 +192,7 @@ export default function ClaimAirdrop() {
             }
             {!error &&
               isAirdropAddressKnown &&
-              appState != APP_STATES.receivedProof && 
+              appState != APP_STATES.receivedProof &&
               appState != APP_STATES.claimingNFT && (
                 <SismoConnectButton
                   // the client config created
@@ -200,14 +201,14 @@ export default function ClaimAirdrop() {
                   // here we want the proof of a Sismo Vault ownership from our users
                   auth={{ authType: AuthType.VAULT }}
 
-                
-                ////////////
-                //Claims has to be an array selected by the user and not a fixed one
-                ////////////
 
-                
+                  ////////////
+                  //Claims has to be an array selected by the user and not a fixed one
+                  ////////////
 
-                  claims={[{ groupId: devGroups[0].groupId }, { groupId: devGroups[1].groupId }, {groupId: devGroups[2].groupId }, { groupId: devGroups[3].groupId}]}
+
+
+                  claims={[{ groupId: devGroups[0].groupId }, { groupId: devGroups[1].groupId }, { groupId: devGroups[2].groupId }, { groupId: devGroups[3].groupId }]}
                   // we use the AbiCoder to encode the data we want to sign
                   // by encoding it we will be able to decode it on chain
                   //signature={{ message: signMessage(account) }}
@@ -221,7 +222,7 @@ export default function ClaimAirdrop() {
               )}
 
             {/** Simple button to call the smart contract with the response as bytes */}
-        
+
             { /*appState == APP_STATES.claimingNFT && (
               <p style={{ marginBottom: 40 }}>Claiming NFT...</p>
             )*/}
