@@ -27,7 +27,7 @@ export const devGroups = [
     groupId: "0x1cde61966decb8600dfd0749bd371f12",
     data: [
       // your address is added here so you can test the airdrops
-      //yourAddress,
+      yourAddress,
       "0x2b9b9846d7298e0272c61669a54f0e602aba6290",
       //"0xb01ee322c4f028b8a6bfcd2a5d48107dc5bc99ec",
       "0x938f169352008d35e065F153be53b3D3C07Bcd90",

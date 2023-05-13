@@ -5,6 +5,11 @@ import { SismoConnect, SismoConnectServerConfig, AuthType, SismoConnectVerifiedR
 import { devGroups } from "../../config"; // The DevGroups are in developing mode, and it overrides a group information
                                           // Needs to be changed to conect in reality with the real groups. 
 
+import {
+    signMessage,
+    } from "@/utils";
+
+const account = "0x0x072d7e87c13bCe2751B5766A0E2280BAD235974f";
 
 const sismoConnectConfig: SismoConnectServerConfig = {
   appId: "0x9820513d88bf47db265d70a430173414",
@@ -27,9 +32,8 @@ export default async function handler(
     const result: SismoConnectVerifiedResult = await sismoConnect.verify(response, {
       //claims: [{groupId: "0xe9ed316946d3d98dfcd829a53ec9822e"}],
       claims: [{ groupId: devGroups[0].groupId }, { groupId: devGroups[1].groupId }, {groupId: devGroups[2].groupId }, { groupId: devGroups[3].groupId}],
-
       auths: [{authType: AuthType.VAULT}],
-      signature: {message: "0x1234568"}
+      signature: { message: signMessage(account) },
     });
     console.log("Response verified:", result.response);
     // vaultId = hash(userVaultSecret, appId). 
