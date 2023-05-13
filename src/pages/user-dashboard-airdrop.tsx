@@ -101,7 +101,7 @@ export default function ClaimAirdrop() {
     // switch the network
     await switchNetwork(userChain);
     try {
-      const tokenId = await callContract({
+     /*const tokenId = await callContract({
         contractAddress,
         responseBytes,
         abi,
@@ -109,7 +109,8 @@ export default function ClaimAirdrop() {
         account,
         publicClient,
         walletClient,
-      });
+      });*/
+      const tokenId = "Proof generated";
       // If the proof is valid, we update the user react state to show the tokenId
       setTokenId({ id: tokenId });
     } catch (e) {
@@ -158,7 +159,7 @@ export default function ClaimAirdrop() {
             {!error &&
               isAirdropAddressKnown &&
               appState != APP_STATES.receivedProof &&
-              appState != APP_STATES.claimingNFT && (
+              /**appState != APP_STATES.claimingNFT && */(
                 <SismoConnectButton
                   // the client config created
                   config={sismoConnectConfig}
@@ -186,10 +187,11 @@ export default function ClaimAirdrop() {
                 value="Claim NFT"
               >
                 {" "}
-                Claim NFT{" "}
+                Send interest proofs!{" "}
               </button>
-            )}
-            {appState == APP_STATES.claimingNFT && (
+              
+            )}∫
+            { appState == APP_STATES.claimingNFT && (
               <p style={{ marginBottom: 40 }}>Claiming NFT...</p>
             )}
           </>
@@ -197,13 +199,13 @@ export default function ClaimAirdrop() {
 
         {tokenId && (
           <>
-            <h1>Airdrop claimed!</h1>
+            <h1>Proof generated successfully!</h1>
             <p style={{ marginBottom: 20 }}>
-              The user has chosen an address to receive the airdrop
+              The user has used the address to generate the proof
             </p>
             <div className="profile-container">
               <div>
-                <h2>NFT Claimed</h2>
+                <h2>Proof status</h2>
                 <b>tokenId: {tokenId?.id}</b>
                 <p>Address used: {account}</p>
               </div>
