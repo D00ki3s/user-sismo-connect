@@ -3,6 +3,9 @@
 
 In this section we aim at providing a solution for the privacy managment for the users in the use of their cookies. We present a solution using Sismo Connect to create a cookie (dookie) personalized in the privacy preverencess of the User while the cookie represents the User interest while keeping the User privacy. 
 
+<img width="1499" alt="Screenshot 2023-05-14 at 07 30 26" src="https://github.com/D00ki3s/user-sismo-connect/assets/105627233/c6733b48-03d7-497f-bd93-cf41067411b7">
+
+
 ## Usage
 
 ### Prerequisites
@@ -106,3 +109,5 @@ After changing the config file, you don't need to restart the app nor restart an
 ℹ️ You will be able to regenerate and change your cooke as many times as you wish.
 
 ```
+
+
