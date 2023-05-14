@@ -1,7 +1,13 @@
 "use client"
 import router from "next/router";
-//import 'react-select/dist/react-select.css';
 import { useEffect, useState } from "react";
+import Select from 'react-select';
+import {
+  SismoConnectButton,
+  AuthType,
+  SismoConnectClientConfig,
+  SismoConnectResponse,
+} from "@sismo-core/sismo-connect-react";
 import {
   switchNetwork,
   mumbaiFork,
@@ -12,59 +18,46 @@ import {
   signMessage,
 } from "@/utils";
 import { transactions } from "../../broadcast/DookieUser.s.sol/5151110/run-latest.json";
-//import fetch from 'node-fetch';
 import { abi } from "../../abi/DookieUser.json";
 import { createWalletClient, http, custom, WalletClient, PublicClient } from "viem";
 import BackButton from "../components/BackButton";
-import {
-  SismoConnectButton,
-  AuthType,
-  SismoConnectClientConfig,
-  SismoConnectResponse,
-} from "@sismo-core/sismo-connect-react";
 
 /*Import sismo-connect-server to check proofs*/
 import {
   SismoConnect,
   SismoConnectServerConfig,
 } from "@sismo-core/sismo-connect-server";
-import { devGroups } from "../../config"; // The DevGroups are in developing mode, and it overrides a group information
-// Needs to be changed to conect in reality with the real groups. 
+import { devGroups } from "../../config"; 
 
-import Select from 'react-select';
+export enum APP_STATES {
+  init,
+  receivedProof,
+  claimingDookie,
+}
 
+// with your Sismo Connect app ID and enable dev mode.
+// The SismoConnectClientConfig is a configuration needed to connect to Sismo Connect and requests data from your users.
+// You can find more information about the configuration here: https://docs.sismo.io/build-with-sismo-connect/technical-documentation/react
+
+export const sismoConnectConfig: SismoConnectClientConfig = {
+  appId: "0x9820513d88bf47db265d70a430173414", //Dookies App
+  devMode: {
+    enabled: true, 
+    devGroups,
+  },
+};
+
+//Groups options
 const options = [
   { value: '0x311ece950f9ec55757eb95f3182ae5e2', label: 'Nouns DAO NFT Holder' },
   { value: '0x1cde61966decb8600dfd0749bd371f12', label: 'Gitcoin Passport Holder' },
   { value: '0x7fa46f9ad7e19af6e039aa72077064a1', label: 'ENS DAO Voter' },
   { value: '0x94bf7aea2a6a362e07e787a663271348', label: 'ETH Whale' },
 ];
-
-
-
-export enum APP_STATES {
-  init,
-  receivedProof,
-  claimingNFT,
-}
-
 // The application calls contracts on Mumbai testnet
 const userChain = mumbaiFork;
 const contractAddress = transactions[0].contractAddress;
 
-// with your Sismo Connect app ID and enable dev mode.
-// you can create a new Sismo Connect app at https://factory.sismo.io
-// The SismoConnectClientConfig is a configuration needed to connect to Sismo Connect and requests data from your users.
-// You can find more information about the configuration here: https://docs.sismo.io/build-with-sismo-connect/technical-documentation/react
-
-export const sismoConnectConfig: SismoConnectClientConfig = {
-  appId: "0x9820513d88bf47db265d70a430173414",
-  //isOptional: true,
-  devMode: {
-    enabled: true, ///////////////////////////// DEV MODE ON!!!!!!!! //////////////////////////
-    devGroups,
-  },
-};
 
 export default function ClaimAirdrop() {
   const [appState, setAppState] = useState<APP_STATES>(APP_STATES.init);
@@ -90,7 +83,7 @@ export default function ClaimAirdrop() {
     async function getCookie() {
       if (appState === APP_STATES.receivedProof && response && account) {
         console.log("GETTING COOKIE")
-        const requestBody = { response: response }; //  Problem sending the body data!!!!!
+        const requestBody = { response: response }; 
         try {
           const verifyRes = await fetch('http://localhost:4500', {
             method: 'POST',
@@ -147,7 +140,7 @@ export default function ClaimAirdrop() {
   // The responseBytes is a string that contains plenty of information about the user proofs and additional parameters that should hold with respect to the proofs
   // You can learn more about the responseBytes format here: https://docs.sismo.io/build-with-sismo-connect/technical-documentation/client#getresponsebytes
   async function claimWithSismo(responseBytes: string) {
-    setAppState(APP_STATES.claimingNFT);
+    setAppState(APP_STATES.claimingDookie);
     // switch the network
     await switchNetwork(userChain);
     try {
@@ -175,20 +168,18 @@ export default function ClaimAirdrop() {
     setSelectedOption(option);
   }
  
-
   return (
     <>
       <BackButton />
       <div className="container">
         {!tokenId && (
           <>
-            <h1 style={{ marginBottom: 10 }}>
-              Share your interest and get rewarded transactions joining Dookies
-            </h1>
+            <h2 style={{ marginBottom: 10 }}>
+              SELECT YOUR INTERESTS AND PREFERENCES
+            </h2>
             {!isAirdropAddressKnown && (
               <p style={{ marginBottom: 40 }}>
-                Select on which address you want to receive your interest proof airdrop and sign it with Sismo
-                Connect
+                Please log in with your wallet
               </p>
             )} 
             
@@ -200,7 +191,7 @@ export default function ClaimAirdrop() {
             />
 
             {isAirdropAddressKnown ? (
-              <p style={{ marginBottom: 40 }}>You will receive the airdrop on {account}</p>
+              <p style={{ marginBottom: 40 }}>Address connected: {account}</p>
             ) : (
               !error && (
                 <button className="connect-wallet-button" onClick={() => connectWallet()}>
@@ -219,9 +210,7 @@ export default function ClaimAirdrop() {
               // You can see more information about the Sismo Connect button in the Sismo Connect documentation: https://docs.sismo.io/build-with-sismo-connect/technical-documentation/react
             }
             {!error &&
-              isAirdropAddressKnown &&
-              appState != APP_STATES.receivedProof &&
-              appState != APP_STATES.claimingNFT && (
+              isAirdropAddressKnown && (
                 <SismoConnectButton
                   // the client config created
                   config={sismoConnectConfig}
@@ -238,33 +227,12 @@ export default function ClaimAirdrop() {
                   // onResponseBytes={(responseBytes: string) => setResponse(responseBytes)}
                   onResponse={(response: SismoConnectResponse) => setResponseAndAppState(response)}
                   // Some text to display on the button
-                  text={"Claim with Sismo"}
+                  text={"Proof your Interest Groups"}
                 />
               )}
-
-            {/** Simple button to call the smart contract with the response as bytes */}
-
-            { /*appState == APP_STATES.claimingNFT && (
-              <p style={{ marginBottom: 40 }}>Claiming NFT...</p>
-            )*/}
           </>
         )}
 
-        {tokenId && (
-          <>
-            <h1>Proof generated successfully!</h1>
-            <p style={{ marginBottom: 20 }}>
-              The user has used the address to generate the proof
-            </p>
-            <div className="profile-container">
-              <div>
-                <h2>Proof status:</h2>
-                <b>tokenId: {tokenId?.id}</b>
-                <p>Address used: {account}</p>
-              </div>
-            </div>
-          </>
-        )}
 
         {error && (
           <>

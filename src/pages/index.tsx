@@ -8,21 +8,19 @@ export default function Home() {
   return (
     <div className="container">
       <h1>
-        Sample Project
+        DOOKIES PROJECT
         <br />
-        Sismo Connect Onchain
       </h1>
+      <h2> 
+        User Dashboard: <br />
+        Cookies Management Dashboard
+      </h2>
       <section>
         <ul>
           <li onClick={() => router.push("/user-dashboard-airdrop")}>
             <h3>
-              Claim a gated airdrop anonymously <br />
-              while proving that you are human
+              Generate a personalized anonimous cookie <br /> wich will track your interests and preferences
             </h3>
-            <p>
-              Sign an address with Sismo Connect where you wish to receive the airdrop while proving
-              that you own a Nouns DAO NFT and a Gitcoin Passport
-            </p>
           </li>
         </ul>
       </section>
