@@ -38,7 +38,6 @@ export enum APP_STATES {
 
 // with your Sismo Connect app ID and enable dev mode.
 // The SismoConnectClientConfig is a configuration needed to connect to Sismo Connect and requests data from your users.
-// You can find more information about the configuration here: https://docs.sismo.io/build-with-sismo-connect/technical-documentation/react
 
 export const sismoConnectConfig: SismoConnectClientConfig = {
   appId: "0x9820513d88bf47db265d70a430173414", //Dookies App
@@ -64,7 +63,7 @@ const userChain = mumbaiFork;
 const contractAddress = transactions[0].contractAddress;
 
 
-export default function ClaimAirdrop() {
+export default function ClaimDookie() {
   const [appState, setAppState] = useState<APP_STATES>(APP_STATES.init);
   const [response, setResponse] = useState<SismoConnectResponse>();
   const [error, setError] = useState<string>("");
@@ -75,7 +74,7 @@ export default function ClaimAirdrop() {
 
   const [selectedOption, setSelectedOption] = useState([]);
 
-  const [isAirdropAddressKnown, setIsAirdropAddressKnown] = useState<boolean>(false);
+  const [isAddressKnown, setIsAddressKnown] = useState<boolean>(false);
   const [walletClient, setWalletClient] = useState<WalletClient>(
     createWalletClient({
       chain: userChain,
@@ -125,18 +124,18 @@ export default function ClaimAirdrop() {
       }) as WalletClient
     );
 
-    setIsAirdropAddressKnown(localStorage.getItem("airdropAddress") ? true : false);
-    if (isAirdropAddressKnown) {
-      setAccount(localStorage.getItem("airdropAddress") as `0x${string}`);
+    setIsAddressKnown(localStorage.getItem("Address") ? true : false);
+    if (isAddressKnown) {
+      setAccount(localStorage.getItem("Address") as `0x${string}`);
     }
-  }, [isAirdropAddressKnown]);
+  }, [isAddressKnown]);
 
   async function connectWallet() {
-    router.push("/user-dashboard-airdrop");
+    router.push("/user-dashboard-interface");
     const address = await requestAccounts();
-    localStorage.setItem("airdropAddress", address);
+    localStorage.setItem("Address", address);
     setAccount(address);
-    setIsAirdropAddressKnown(true);
+    setIsAddressKnown(true);
   }
 
   function setResponseAndAppState(res: SismoConnectResponse) {
@@ -171,7 +170,7 @@ export default function ClaimAirdrop() {
       setError(handleVerifyErrors(e));
     } finally {
       setAppState(APP_STATES.init);
-      localStorage.removeItem("airdropAddress");
+      localStorage.removeItem("Address");
     }
   }
   const onChange = (option: any) => {
@@ -188,7 +187,7 @@ export default function ClaimAirdrop() {
             <h2 style={{ marginBottom: 10 }}>
               SELECT YOUR INTERESTS AND PREFERENCES
             </h2>
-            {!isAirdropAddressKnown && (
+            {!isAddressKnown && (
               <p style={{ marginBottom: 40 }}>
                 Please log in with your wallet
               </p>
@@ -201,7 +200,7 @@ export default function ClaimAirdrop() {
               options={options}
             />
 
-            {isAirdropAddressKnown ? (
+            {isAddressKnown ? (
               <p style={{ marginBottom: 40 }}>Address connected: {account}</p>
             ) : (
               !error && (
@@ -216,12 +215,10 @@ export default function ClaimAirdrop() {
               // The different props are:
               // - config: the Sismo Connect client config that contains the Sismo Connect appId
               // - auths: the auth requests that will be used to generate the proofs, here we only use the Vault auth request
-              // - signature: the signature request that will be used to sign an arbitrary message that will be checked onchain, here it is used to sign the airdrop address
-              // - onResponseBytes: the callback that will be called when the user is redirected back from the his Sismo Vault to the Sismo Connect App with the Sismo Connect response as bytes
-              // You can see more information about the Sismo Connect button in the Sismo Connect documentation: https://docs.sismo.io/build-with-sismo-connect/technical-documentation/react
+              // - signature: the signature request that will be used to sign an arbitrary message that will be checked onchain
             }
             {!error &&
-              isAirdropAddressKnown &&
+              isAddressKnown &&
               appState != APP_STATES.receivedProof && 
               appState != APP_STATES.claimingDookie &&  (
                 <SismoConnectButton
@@ -245,26 +242,6 @@ export default function ClaimAirdrop() {
               )}
           </>
         )}
-        {tokenId && (
-          <>
-            <h1>Proof generated successfully!</h1>
-            <p style={{ marginBottom: 20 }}>
-              The user has used the address to generate the proof
-            </p>
-            <div className="profile-container">
-              <div>
-                <h2>Proof status:</h2>
-                <b>tokenId: {tokenId?.id}</b>
-                <p>Address used: {account}</p>
-              </div>
-            </div>
-            {/** Simple button to call the smart contract with the response as bytes */}
-            { /*appState == APP_STATES.claimingNFT && (
-              <p style={{ marginBottom: 40 }}>Claiming NFT...</p>
-            )*/}
-          </>
-        )}
-
         {error && (
           <>
             <h2>{error}</h2>

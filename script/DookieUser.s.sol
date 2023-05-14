@@ -16,7 +16,7 @@ contract DeployDookieUser is Script {
 
     function run() public {
         vm.startBroadcast();
-        DookieUser dookieuser = new DookieUser({name: "My airdropUser contract", symbol: "AIR2", appId: APP_ID, groupId: GROUP_ID, groupId2: GROUP_ID_2, groupId_ens: GROUP_ID_VOTE_ENS, groupId_ethtransactions: GROUP_ID_ETHTRANSACTIONS, groupId_uniswap: GROUP_ID_UNISWAP, groupId_lens: GROUP_ID_LENS});
+        DookieUser dookieuser = new DookieUser({name: "My DookieUser contract", symbol: "DOO", appId: APP_ID, groupId: GROUP_ID, groupId2: GROUP_ID_2, groupId_ens: GROUP_ID_VOTE_ENS, groupId_ethtransactions: GROUP_ID_ETHTRANSACTIONS, groupId_uniswap: GROUP_ID_UNISWAP, groupId_lens: GROUP_ID_LENS});
 
         console.log("CookieUser Contract deployed at", address(dookieuser));
         vm.stopBroadcast();

@@ -3,7 +3,6 @@ pragma solidity ^0.8.17;
 
 // import SismoConnect Solidity library
 import "sismo-connect-solidity/SismoLib.sol";
-import "sismo-connect-solidity/lib/sismo-connect-onchain-verifier/src/libs/utils/Structs.sol"
 import {ERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
 /**
@@ -17,8 +16,8 @@ contract DookieUser is
     {
     using SismoConnectHelper for SismoConnectVerifiedResult;
     // specify the groupIds from which users should be members of to claim the token
-    bytes16 public immutable GROUP_ID;
-    bytes16 public immutable GROUP_ID_2;
+    bytes16 public immutable GROUP_NOUNS_DAO ;
+    bytes16 public immutable GROUP_GITCOIN;
     bytes16 public immutable GROUP_ID_VOTE_ENS;
     bytes16 public immutable GROUP_ID_ETHTRANSACTIONS;
     bytes16 public immutable GROUP_ID_UNISWAP;
@@ -43,8 +42,8 @@ contract DookieUser is
     ) 
     
     ERC721(name, symbol) SismoConnect(appId) {
-        GROUP_ID = groupId;
-        GROUP_ID_2 = groupId2;
+        GROUP_NOUNS_DAO  = groupId;
+        GROUP_GITCOIN = groupId2;
         GROUP_ID_VOTE_ENS = groupId_ens;
         GROUP_ID_ETHTRANSACTIONS = groupId_ethtransactions;
         GROUP_ID_UNISWAP = groupId_uniswap;
@@ -58,8 +57,8 @@ contract DookieUser is
      */
     function claimWithSismo(bytes memory response) public returns (uint256) {
         ClaimRequest[] memory claims = new ClaimRequest[](6);
-        claims[0] = buildClaim({groupId: GROUP_ID });
-        claims[1] = buildClaim({groupId: GROUP_ID_2});
+        claims[0] = buildClaim({groupId: GROUP_NOUNS_DAO });
+        claims[1] = buildClaim({groupId: GROUP_GITCOIN});
         claims[2] = buildClaim({groupId: GROUP_ID_VOTE_ENS});
         claims[3] = buildClaim({groupId: GROUP_ID_ETHTRANSACTIONS});
         claims[4] = buildClaim({groupId: GROUP_ID_UNISWAP});

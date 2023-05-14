@@ -17,7 +17,7 @@ export default function Home() {
       </h2>
       <section>
         <ul>
-          <li onClick={() => router.push("/user-dashboard-airdrop")}>
+          <li onClick={() => router.push("/user-dashboard-interface")}>
             <h3>
               Generate a personalized anonimous cookie <br /> wich will track your interests and preferences
             </h3>

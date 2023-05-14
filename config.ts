@@ -3,8 +3,8 @@ import { privateKeyToAccount } from "viem/accounts";
 
 ///////////////////
 
-// Replace with your address to become eligible for the airdrops
-export const yourAddress = "0x072d7e87c13bCe2751B5766A0E2280BAD235974f"; // <--- Replace with your address for the demo
+// Replace with your address to add you to the default groups for DevMode only
+export const yourAddress = "0x072d7e87c13bCe2751B5766A0E2280BAD235974f";
 
 ///////////////////
 
@@ -13,7 +13,7 @@ export const devGroups = [
     // Nouns DAO NFT Holders group 
     groupId: "0x311ece950f9ec55757eb95f3182ae5e2",
     data: [
-      // your address is added here so you can test the airdrops
+      // your address is added here, with others, to simulate the group list
       yourAddress,
       "0x2b9b9846d7298e0272c61669a54f0e602aba6290",
       "0xb01ee322c4f028b8a6bfcd2a5d48107dc5bc99ec",
@@ -28,7 +28,7 @@ export const devGroups = [
     // Gitcoin Passport group 
     groupId: "0x1cde61966decb8600dfd0749bd371f12",
     data: [
-      // your address is added here so you can test the airdrops
+      // your address is added here, with others, to simulate the group list
       yourAddress,
       "0x2b9b9846d7298e0272c61669a54f0e602aba6290",
       "0xb01ee322c4f028b8a6bfcd2a5d48107dc5bc99ec",
@@ -43,7 +43,7 @@ export const devGroups = [
     // ENS Passport group 
     groupId: "0x7fa46f9ad7e19af6e039aa72077064a1",
     data: [
-      // your address is added here so you ca©n test the airdrops
+      // your address is added here, with others, to simulate the group list
       yourAddress,
       "0x2b9b9846d7298e0272c61669a54f0e602aba6290",
       "0xb01ee322c4f028b8a6bfcd2a5d48107dc5bc99ec",
@@ -58,7 +58,7 @@ export const devGroups = [
     // Ethereum transactions Passport group 
     groupId: "0x94bf7aea2a6a362e07e787a663271348",
     data: [
-      // your address is added here so you can test the airdrops
+      // your address is added here, with others, to simulate the group list
       yourAddress,
       "0x2b9b9846d7298e0272c61669a54f0e602aba6290",
       "0xb01ee322c4f028b8a6bfcd2a5d48107dc5bc99ec",
@@ -73,7 +73,7 @@ export const devGroups = [
     // Be an early contributor of Uniswap group 
     groupId: "0xff7653240feecd7448150005a95ac86b",
     data: [
-      // your address is added here so you can test the airdrops
+      // your address is added here, with others, to simulate the group list
       yourAddress,
       "0x2b9b9846d7298e0272c61669a54f0e602aba6290",
       "0xb01ee322c4f028b8a6bfcd2a5d48107dc5bc99ec",
@@ -88,7 +88,7 @@ export const devGroups = [
     // Data Group of eary followers of sismo.lens 
     groupId: "0x3a03c9231f9b3811f71fd268a7c8b906",
     data: [
-      // your address is added here so you can test the airdrops
+      // your address is added here, with others, to simulate the group list
       yourAddress,
       "0x2b9b9846d7298e0272c61669a54f0e602aba6290",
       "0xb01ee322c4f028b8a6bfcd2a5d48107dc5bc99ec",
@@ -102,7 +102,6 @@ export const devGroups = [
 ];
 
 // The chain configuration of the chain you want to fork
-// You don't need to change this
 export const mumbaiFork = {
   id: 5151110,
   name: "Fork Mumbai - Sismo",
@@ -118,11 +117,6 @@ export const mumbaiFork = {
   },
 } as const satisfies Chain;
 
-// The private key of the second account of the local anvil network
-// This account is used for this demo to allow the user to try it without connecting a wallet
-export const account = privateKeyToAccount(
-  "0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d"
-);
 
 // setup the public and wallet client to interact with the contract deployed on a local fork
 // the public client is used to read data from the contract or the chain

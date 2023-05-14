@@ -36,6 +36,16 @@
         "internalType": "bytes16",
         "name": "groupId_ethtransactions",
         "type": "bytes16"
+      },
+      {
+        "internalType": "bytes16",
+        "name": "groupId_uniswap",
+        "type": "bytes16"
+      },
+      {
+        "internalType": "bytes16",
+        "name": "groupId_lens",
+        "type": "bytes16"
       }
     ],
     "stateMutability": "nonpayable",
@@ -152,20 +162,7 @@
   },
   {
     "inputs": [],
-    "name": "GROUP_ID",
-    "outputs": [
-      {
-        "internalType": "bytes16",
-        "name": "",
-        "type": "bytes16"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "GROUP_ID_2",
+    "name": "GROUP_GITCOIN",
     "outputs": [
       {
         "internalType": "bytes16",
@@ -179,19 +176,6 @@
   {
     "inputs": [],
     "name": "GROUP_ID_ETHTRANSACTIONS",
-    "outputs": [
-      {
-        "internalType": "bytes16",
-        "name": "",
-        "type": "bytes16"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "GROUP_ID_VOTE_ENS",
     "outputs": [
       {
         "internalType": "bytes16",
@@ -218,6 +202,32 @@
   {
     "inputs": [],
     "name": "GROUP_ID_UNISWAP",
+    "outputs": [
+      {
+        "internalType": "bytes16",
+        "name": "",
+        "type": "bytes16"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "GROUP_ID_VOTE_ENS",
+    "outputs": [
+      {
+        "internalType": "bytes16",
+        "name": "",
+        "type": "bytes16"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "GROUP_NOUNS_DAO",
     "outputs": [
       {
         "internalType": "bytes16",

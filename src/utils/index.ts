@@ -149,14 +149,14 @@ export const callContract = async ({
 
 export const signMessage = (account: string) => {
   return encodeAbiParameters(
-    [{ type: "address", name: "airdropAddress" }],
+    [{ type: "address", name: "Address" }],
     [account as `0x${string}`]
   );
 };
 
 export function handleVerifyErrors(e: any): any {
   // else if the tx is invalid, we show an error message
-  // it is either because the proof is invalid or because the user already claimed the airdrop
+  // it is either because the proof is invalid or because the user already claimed the cookie
   console.log("error", { ...(e as object) });
   console.log("e.shortMessage", (e as { shortMessage: string }).shortMessage);
   let returnedError: string = (e as { shortMessage: string }).shortMessage;
@@ -166,7 +166,7 @@ export function handleVerifyErrors(e: any): any {
     (e as { shortMessage: string }).shortMessage ===
       'The contract function "claimWithSismo" reverted with the following reason:\nERC721: token already minted'
   ) {
-    returnedError = "Airdrop already claimed!";
+    returnedError = "Cookie already claimed!";
   }
 
   if (
@@ -174,7 +174,7 @@ export function handleVerifyErrors(e: any): any {
     'Encoded error signature "0x587110c0" not found on ABI.\nMake sure you are using the correct ABI and that the error exists on it.\nYou can look up the signature here: https://openchain.xyz/signatures?query=0x587110c0.'
   ) {
     returnedError =
-      "The address used to claim the airdrop is different from the one that has been signed in the user Vault.\nClick on the 'Back Home' button on the top left to retry the process.";
+      "The address used to claim the cookie is different from the one that has been signed in the user Vault.\nClick on the 'Back Home' button on the top left to retry the process.";
   }
 
   if (
