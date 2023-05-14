@@ -20,8 +20,9 @@ contract DookieUser is
     bytes16 public immutable GROUP_ID;
     bytes16 public immutable GROUP_ID_2;
     bytes16 public immutable GROUP_ID_VOTE_ENS;
-    //bytes16 public immutable GROUP_ID_LENS;
     bytes16 public immutable GROUP_ID_ETHTRANSACTIONS;
+    bytes16 public immutable GROUP_ID_UNISWAP;
+    bytes16 public immutable GROUP_ID_LENS;
 
     error RegularERC721TransferFromAreNotAllowed();
     error RegularERC721SafeTransferFromAreNotAllowed();
@@ -34,15 +35,20 @@ contract DookieUser is
 
         bytes16 groupId2, // the groupId from which users should optionally be members of to claim the token
         bytes16 groupId_ens, // the groupId from which users should optionally be members of to claim the token
-       // bytes16 groupId_lens, // the groupId from which users should optionally be members of to claim the token
-        bytes16 groupId_ethtransactions // the groupId from which users should optionally be members of to claim the token
+        bytes16 groupId_ethtransactions, // the groupId from which users should optionally be members of to claim the token
+        bytes16 groupId_uniswap,
+        bytes16 groupId_lens // the groupId from which users should optionally be members of to claim the token
 
-    ) ERC721(name, symbol) SismoConnect(appId) {
+
+    ) 
+    
+    ERC721(name, symbol) SismoConnect(appId) {
         GROUP_ID = groupId;
         GROUP_ID_2 = groupId2;
         GROUP_ID_VOTE_ENS = groupId_ens;
-        //GROUP_ID_LENS = groupId_lens;
         GROUP_ID_ETHTRANSACTIONS = groupId_ethtransactions;
+        GROUP_ID_UNISWAP = groupId_uniswap;
+        GROUP_ID_LENS = groupId_lens;
     }
 
     /**
@@ -51,12 +57,13 @@ contract DookieUser is
      * @param response the sismoConnect response from the Data Vault app in bytes
      */
     function claimWithSismo(bytes memory response) public returns (uint256) {
-        ClaimRequest[] memory claims = new ClaimRequest[](4);
-        claims[0] = buildClaim({groupId: GROUP_ID , isOptional: true});
-        claims[1] = buildClaim({groupId: GROUP_ID_2, isOptional: true});
-        claims[2] = buildClaim({groupId: GROUP_ID_VOTE_ENS, isOptional: true});
-        //claims[3] = buildClaim({groupId: GROUP_ID_LENS});
-        claims[3] = buildClaim({groupId: GROUP_ID_ETHTRANSACTIONS, isOptional: true});
+        ClaimRequest[] memory claims = new ClaimRequest[](6);
+        claims[0] = buildClaim({groupId: GROUP_ID });
+        claims[1] = buildClaim({groupId: GROUP_ID_2});
+        claims[2] = buildClaim({groupId: GROUP_ID_VOTE_ENS});
+        claims[3] = buildClaim({groupId: GROUP_ID_ETHTRANSACTIONS});
+        claims[4] = buildClaim({groupId: GROUP_ID_UNISWAP});
+        claims[5] = buildClaim({groupId: GROUP_ID_LENS});
 
         AuthRequest[] memory auths = new AuthRequest[](1);
         auths[0] = buildAuth({authType: AuthType.VAULT});

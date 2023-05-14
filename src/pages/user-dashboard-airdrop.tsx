@@ -28,6 +28,7 @@ import {
   SismoConnectServerConfig,
 } from "@sismo-core/sismo-connect-server";
 import { devGroups } from "../../config"; 
+import { group } from "console";
 
 export enum APP_STATES {
   init,
@@ -53,6 +54,10 @@ const options = [
   { value: '0x1cde61966decb8600dfd0749bd371f12', label: 'Gitcoin Passport Holder' },
   { value: '0x7fa46f9ad7e19af6e039aa72077064a1', label: 'ENS DAO Voter' },
   { value: '0x94bf7aea2a6a362e07e787a663271348', label: 'ETH Whale' },
+  { value: '0x3a03c9231f9b3811f71fd268a7c8b906', label: 'Sismo Lens Follwers' },
+  { value: '0xff7653240feecd7448150005a95ac86b', label: 'Uniswap Contributors' },
+
+
 ];
 // The application calls contracts on Mumbai testnet
 const userChain = mumbaiFork;
@@ -82,12 +87,18 @@ export default function ClaimAirdrop() {
   useEffect(() => {
     async function getCookie() {
       if (appState === APP_STATES.receivedProof && response && account) {
-        console.log("GETTING COOKIE")
+        console.log("GETTING COOKIE", response)
         const requestBody = { response: response }; 
         try {
+          console.log(selectedOption?.map((opt: any) => ({groupId:opt.value})))
+          const groups = response.proofs.flatMap(proof => ({groupId: proof.claims?.[0].groupId}))
+          .filter(proof => proof?.groupId);
+          console.log("Filter Groups")
+          console.log(groups)
+          
           const verifyRes = await fetch('http://localhost:4500', {
             method: 'POST',
-            body: JSON.stringify({ response, account, groups: selectedOption?.map((opt: any) => ({groupId:opt.value})), signature: "dookie" }), // That should be the proof
+            body: JSON.stringify({ response, account, groups: groups, signature: "dookie" }), // That should be the proof
             headers: { 'Content-Type': 'application/json' },
             credentials: 'include',
           });
@@ -102,7 +113,7 @@ export default function ClaimAirdrop() {
     }
     getCookie()
 
-  }, [response, account])
+  }, [response, account, selectedOption])
   useEffect(() => {
     if (typeof window === "undefined") return;
     setWalletClient(
@@ -210,7 +221,9 @@ export default function ClaimAirdrop() {
               // You can see more information about the Sismo Connect button in the Sismo Connect documentation: https://docs.sismo.io/build-with-sismo-connect/technical-documentation/react
             }
             {!error &&
-              isAirdropAddressKnown && (
+              isAirdropAddressKnown &&
+              appState != APP_STATES.receivedProof && 
+              appState != APP_STATES.claimingDookie &&  (
                 <SismoConnectButton
                   // the client config created
                   config={sismoConnectConfig}
@@ -232,7 +245,25 @@ export default function ClaimAirdrop() {
               )}
           </>
         )}
-
+        {tokenId && (
+          <>
+            <h1>Proof generated successfully!</h1>
+            <p style={{ marginBottom: 20 }}>
+              The user has used the address to generate the proof
+            </p>
+            <div className="profile-container">
+              <div>
+                <h2>Proof status:</h2>
+                <b>tokenId: {tokenId?.id}</b>
+                <p>Address used: {account}</p>
+              </div>
+            </div>
+            {/** Simple button to call the smart contract with the response as bytes */}
+            { /*appState == APP_STATES.claimingNFT && (
+              <p style={{ marginBottom: 40 }}>Claiming NFT...</p>
+            )*/}
+          </>
+        )}
 
         {error && (
           <>
