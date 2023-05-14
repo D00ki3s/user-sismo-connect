@@ -13,8 +13,8 @@ In this section we aim at providing a solution for the privacy managment for the
 - Metamask installed in your browser
 
 ### Releted links
-Sismo Example App: https://docs.sismo.io/sismo-docs/build-with-sismo-connect/run-example-apps
-Sismo Connect Client : Request (Frontend): https://docs.sismo.io/sismo-docs/build-with-sismo-connect/technical-documentation/client
+Sismo Example App: https://docs.sismo.io/sismo-docs/build-with-sismo-connect/run-example-apps <br/>
+Sismo Connect Client : Request (Frontend): https://docs.sismo.io/sismo-docs/build-with-sismo-connect/technical-documentation/client <br/>
 Sismo Connect Server: Verify Offchain (Backend): https://docs.sismo.io/sismo-docs/build-with-sismo-connect/technical-documentation/server
 
 ### Clone the repository
